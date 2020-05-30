@@ -1,0 +1,17 @@
+Image set - Range of a function
+
+Defining Real Numbers using irrational numbers
+Imagine a number line, rith irrational r that divides a line into Left(L) and (R). The set of real numbers Q, is the set of all these partitions.
+We use Dedekind sets, dividing the rational number line into two.
+
+Dedekind left set- subset r of Q that
+(i) r is a proper, nonempty subset of Q;
+(ii) r is closed to the left
+(iii) r has no maximum element
+Dedekind cut - a partition of rational numbers into two sets A and B, such that elements in are les than B and A has no greatest element
+
+A real number is a Dedekind left set and R is the set of all such numbers
+
+Qtn: Is {p E Q : p <= 0.5} a real number? No because it violates property (iii) since its sup(0.5)
+2. DEscribe the dedekind left set for -3? [q E Q: q < -3]
+3. Dedekind left set for sqrt(2)? {q E Q: q^2 < 2 or q is negtaive} (q is negative closes the set on the left )

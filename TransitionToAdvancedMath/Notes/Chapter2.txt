@@ -1,0 +1,14 @@
+Statement- assertion that is either true or false
+Open sentence - statement that contains more than one variable
+Disjunction - or, Conjunction - and
+Disjunction(v) - True if only one of options is true
+Conjunction(^) - both have to be true
+Implication - if then =>
+Biconditional - P <=> Q is P is equivalent to Q, or P if and only if Q
+
+Tautology - compound statement that is always true
+Contradiction - compound statement that is always false
+Quantification - using a universal qualifier to turn an open sentence into a statement
+Universal QUalifiers - for every, for each
+
+

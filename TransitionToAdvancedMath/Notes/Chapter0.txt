@@ -1,0 +1,18 @@
+Book url:https://aidanlathamblog.net/docs/Mathematical-Proofs-A-Transition-to-Advanced-Mathematics.pdf
+
+RUles when using symbols
+1. Never start a sentence with a symbol
+2. Separate symbols not in a list with words
+3. Except when writing logic, avoid if, for all symbols
+4. Carefully use i.e and eg
+5. Don't mix words and integers inappropriately
+6. Avoid using random symbols like f when sstating a theorem
+7. Explain the meaning of every symbol you use.
+8. Use frozen symbols properly.
+9. Use consistent symbols.
+
+Common phrases in Math
+1. We will now show...
+2. Avoid clearly, obviously, certainly, of course
+3. Use if-then, not since-then
+4. CApitalize Theorem and Lemma

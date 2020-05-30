@@ -1,0 +1,6 @@
+Direct proof and Proof by Contrapositive
+
+Axiom - Mathematical statement accepted without proof
+Theorem - mathematical statement whose truth can be verified
+Corollary - Result deduced from sth else
+Lemma - A result that helps establish a truth

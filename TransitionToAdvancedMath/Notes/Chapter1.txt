@@ -1,0 +1,31 @@
+Sets
+-A set is a collection of objects
+-Element is an object in a a set. For example, players are part of a team,
+-Capital letters describe sets, lower case letters	 describe elements
+-Cardinality |S| - the number of elements in a finite set
+
+-Null set - set that does not contain any elements
+-S={x:p(x)} - S consists of all elements x such that p(x) is satisfied.//All members of the set fulfill a condition
+
+EXAMPLE1
+Let A = {3,4,5,...,20}. If B denotes the set of all elements of A less than 8, then: B = {x E A | x < 8} = {3,4,5,6,7}
+
+EXAMPLE2
+J = {x E Q | x^2 - 2 = 0} - this is a null set coz nothing fulfills this
+
+N - set of all positive integers/Natural numbers(N>0)
+Z - set of all integers E={x|x>0 and x<0}
+R - set of all real numbers
+Q - set of all rational numbers
+I set of irrational numbers
+
+
+
+
+Denote set of odd integers O = {x| x=2y+1}
+Denote set of all square integers S = {x^2 : x E Z}
+
+
+
+
+

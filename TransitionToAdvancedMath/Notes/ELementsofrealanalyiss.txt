@@ -1,0 +1,9 @@
+Field - a set that satisfies addition and multiplication properties
+Complete ordered field- only set of Rea numbers
+ Completeness- non-empty set is bounded above, so it has a supremum
+ Meaning? If an alien came up with a number system, it would be real, maybe the symbols would be different
+ Alternative meaning - there are no gaps or dedekind cuts like in set of rational numbers
+
+ Archimedean principle - you can exceed the value of any integer by adding another integer to it
+
+ Formal - if p and e are positive, then ne > p for some integer n
