@@ -9,6 +9,9 @@ static void do_drawing(cairo_t *);
 static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 static void do_drawing(cairo_t *cr);
 static gboolean clicked(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+static gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpointer data);
+static void on_open_image(GtkButton *button, gpointer user_data);
+gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
 //end of function prototypes
 
 
@@ -16,9 +19,9 @@ static gboolean clicked(GtkWidget *widget, GdkEventButton *event, gpointer user_
 * count is index of arrays, coordx and coordy are x and y coordinates of the mouse
 */
 struct {
-  int count;
-  double coordx[100];
-  double coordy[100];
+	int count;
+	double coordx[100];
+	double coordy[100];
 } glob;
 
 /* Function: do_drawing
@@ -31,52 +34,52 @@ static void do_drawing(cairo_t *cr)
 {
   cairo_set_source_rgb(cr, 0, 0, 0);//Line colour
   cairo_set_line_width(cr, 0.5);//Line width
-  cairo_translate(cr, -170, -170);
+  cairo_translate(cr, -170, -170);//Shift where line is seen
 
   //i is starting point, i+1 is next mouse coordinate 
   int i;
   for (i = 0; i < glob.count - 1; i++ ) {
-    cairo_move_to(cr, glob.coordx[i], glob.coordy[i]);
-    cairo_line_to(cr, glob.coordx[i+1], glob.coordy[i+1]);
-   printf("from x:%f, y:%f\t to: x:%f, y:%f\n",glob.coordx[i],glob.coordy[i], glob.coordx[i+1], glob.coordy[i+1]);
-    cairo_stroke(cr);    
+  	cairo_move_to(cr, glob.coordx[i], glob.coordy[i]);
+  	cairo_line_to(cr, glob.coordx[i+1], glob.coordy[i+1]);
+  	printf("from x:%f, y:%f\t to: x:%f, y:%f\n",glob.coordx[i],glob.coordy[i], glob.coordx[i+1], glob.coordy[i+1]);
+  	cairo_stroke(cr);    
   }
   //resets array so shape can be drawn again
-  glob.count = 0;
+  //glob.count = 0;
 }
 
 
 static gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 
-    GdkWindow *window = gtk_widget_get_window(widget);
-    cairo_region_t *cairo_region = cairo_region_create();
-    GdkDrawingContext *drawing_context = gdk_window_begin_draw_frame(window, cairo_region);
+	GdkWindow *window = gtk_widget_get_window(widget);
+	cairo_region_t *cairo_region = cairo_region_create();
+	GdkDrawingContext *drawing_context = gdk_window_begin_draw_frame(window, cairo_region);
 
-    cairo_t *cr;
-    cr = gdk_drawing_context_get_cairo_context(drawing_context);
-  		
-  	do_drawing(cr);
+	cairo_t *cr;
+	cr = gdk_drawing_context_get_cairo_context(drawing_context);
+
+	do_drawing(cr);
        // say: "I'm finished drawing
-      gdk_window_end_draw_frame(window,drawing_context);
-        
+	gdk_window_end_draw_frame(window,drawing_context);
 
-    cairo_region_destroy (cairo_region);
+
+	cairo_region_destroy (cairo_region);
     //    return FALSE;
 }
 
 static gboolean clicked(GtkWidget *widget, GdkEventButton *event,
-    gpointer user_data)
+	gpointer user_data)
 {
-  if (event->button == 1) {
-    glob.coordx[glob.count] = event->x;
-    glob.coordy[glob.count++] = event->y;
-      }
-  if (event->button == 3) {
-    gtk_widget_queue_draw(widget);
-  }
+	if (event->button == 1) {
+		glob.coordx[glob.count] = event->x;
+		glob.coordy[glob.count++] = event->y;
+	}
+	if (event->button == 3) {
+		gtk_widget_queue_draw(widget);
+	}
 
-  return TRUE;
+	return TRUE;
 }
 static void on_open_image(GtkButton *button, gpointer user_data)
 {
@@ -86,12 +89,12 @@ static void on_open_image(GtkButton *button, gpointer user_data)
 	GtkWidget *top_level = gtk_widget_get_toplevel(image);
 	GtkFileFilter *filter = gtk_file_filter_new();
 	GtkWidget *dialog = gtk_file_chooser_dialog_new(("open Image"), GTK_WINDOW(top_level),
-													  action,
-                                    					("_Cancel"),
-                                     					GTK_RESPONSE_CANCEL,
-                                     					("_Open"),
-                                      					GTK_RESPONSE_ACCEPT,
-                                      					NULL);
+		action,
+		("_Cancel"),
+		GTK_RESPONSE_CANCEL,
+		("_Open"),
+		GTK_RESPONSE_ACCEPT,
+		NULL);
 	gtk_file_filter_add_pixbuf_formats(filter);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
@@ -106,7 +109,7 @@ static void on_open_image(GtkButton *button, gpointer user_data)
 			break;
 		}
 		default:
-			break;
+		break;
 	}
 	gtk_widget_destroy(dialog);
 }
@@ -175,7 +178,7 @@ int main (int argc, char *argv[] )
 	
 	
 	//box
-	  gtk_widget_add_events(window, GDK_BUTTON_PRESS_MASK);
+	gtk_widget_add_events(window, GDK_BUTTON_PRESS_MASK);
 
 	//set window title
 	gtk_window_set_title(GTK_WINDOW(window), "KIBICHO is BAE");
