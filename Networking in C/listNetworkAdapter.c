@@ -3,7 +3,7 @@
 *Run: 	   gcc listNetworkAdapters.c -o listNetworkAdapters.o
 *Function: Simple program to list IPv4 and IPv6 adapters on linux computer
 *
-*Expected output: 	lo	IPv4		127.0.0.1 		//computer address
+*Expected output: 		lo	IPv4		127.0.0.1 		//computer address
 *					wlo1	IPv4		192.168.1.9 //router address
 *					lo	IPv6		::1
 *					wlo1	IPv6		fe80::c9cd:3159:934:170e%wlo1
