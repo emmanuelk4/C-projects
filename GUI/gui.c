@@ -1,14 +1,50 @@
-//gcc gui.c -o gui `pkg-config --cflags --libs gtk+-3.0`
+//gcc gui.c -o gui.o `pkg-config --cflags --libs gtk+-3.0`
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>	
 #include <cairo.h>
-//CALLBACKS
+
+//function prototypes
+static void do_drawing(cairo_t *);
+static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data);
+static void do_drawing(cairo_t *cr);
+static gboolean clicked(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+//end of function prototypes
+
+
+/* Global variables for storing mouse coordinates,
+* count is index of arrays, coordx and coordy are x and y coordinates of the mouse
+*/
 struct {
   int count;
   double coordx[100];
   double coordy[100];
 } glob;
+
+/* Function: do_drawing
+*Parameters: cairo_t
+*Use: It sets cairo canvas settings, and draws shapes with a for loop
+*Settings: are commented
+*Note: printf is used during debugging to find mouse click coordinates :)
+*/
+static void do_drawing(cairo_t *cr)
+{
+  cairo_set_source_rgb(cr, 0, 0, 0);//Line colour
+  cairo_set_line_width(cr, 0.5);//Line width
+  cairo_translate(cr, -170, -170);
+
+  //i is starting point, i+1 is next mouse coordinate 
+  int i;
+  for (i = 0; i < glob.count - 1; i++ ) {
+    cairo_move_to(cr, glob.coordx[i], glob.coordy[i]);
+    cairo_line_to(cr, glob.coordx[i+1], glob.coordy[i+1]);
+   printf("from x:%f, y:%f\t to: x:%f, y:%f\n",glob.coordx[i],glob.coordy[i], glob.coordx[i+1], glob.coordy[i+1]);
+    cairo_stroke(cr);    
+  }
+  //resets array so shape can be drawn again
+  glob.count = 0;
+}
+
 
 static gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
@@ -20,25 +56,9 @@ static gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpoint
     cairo_t *cr;
     cr = gdk_drawing_context_get_cairo_context(drawing_context);
   		
-  		{
-
-             // do your drawing
-              cairo_set_source_rgb(cr, 0, 0, 0);
-  cairo_set_line_width(cr, 0.5);
-
-  int i, j;
-  for (i = 0; i <= glob.count - 1; i++ ) {
-      for (j = 0; j <= glob.count - 1; j++ ) {
-          cairo_move_to(cr, glob.coordx[i], glob.coordy[i]);
-          cairo_line_to(cr, glob.coordx[j], glob.coordy[j]);
-      }
-  }
-   glob.count = 0;
-  cairo_stroke(cr);    
-            
-		}
-            // say: "I'm finished drawing
-            gdk_window_end_draw_frame(window,drawing_context);
+  	do_drawing(cr);
+       // say: "I'm finished drawing
+      gdk_window_end_draw_frame(window,drawing_context);
         
 
     cairo_region_destroy (cairo_region);
@@ -48,25 +68,15 @@ static gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpoint
 static gboolean clicked(GtkWidget *widget, GdkEventButton *event,
     gpointer user_data)
 {
-    if (event->button == 1) {
-        printf("Right Click");
-        glob.coordx[glob.count] = event->x;
-        glob.coordy[glob.count++] = event->y;
-
-        int i,j;
-        for (i =0; i <= glob.count-1; i++) {
-        	for (j=0; j <= glob.count-1; j++){
-          printf("%f\t", glob.coordx[i]);
-          printf("%f\n", glob.coordy[j]);
+  if (event->button == 1) {
+    glob.coordx[glob.count] = event->x;
+    glob.coordy[glob.count++] = event->y;
       }
-      }
-    }
+  if (event->button == 3) {
+    gtk_widget_queue_draw(widget);
+  }
 
-    if (event->button == 3) {
-        printf("left Click");
-        gtk_widget_queue_draw(widget);
-    }
-
+  return TRUE;
 }
 static void on_open_image(GtkButton *button, gpointer user_data)
 {
