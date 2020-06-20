@@ -1,7 +1,7 @@
 /*
-*Program: 			listNetworkAdapters.c
-*Run: 				gcc listNetworkAdapters.c -o listNetworkAdapters.o
-*Function:			Simple program to list IPv4 and IPv6 adapters on linux computer
+*Program:  listNetworkAdapters.c
+*Run: 	   gcc listNetworkAdapters.c -o listNetworkAdapters.o
+*Function: Simple program to list IPv4 and IPv6 adapters on linux computer
 *
 *Expected output: 	lo	IPv4		127.0.0.1 		//computer address
 *					wlo1	IPv4		192.168.1.9 //router address
@@ -37,14 +37,14 @@ int main(){
 			printf("%s\t", address->ifa_name);
 			printf("%s\t", family == AF_INET ? "IPv4" : "IPv6");
 			//character buffer to store textual addresses
-		char ap[100];
+			char ap[100];
 
-		const int family_size = family == AF_INET ? sizeof(struct sockaddr_in) : 
-													sizeof(struct sockaddr_in6);
+			const int family_size = family == AF_INET ? sizeof(struct sockaddr_in) : 
+			sizeof(struct sockaddr_in6);
 		//getnameinfo fills buffer											
-		getnameinfo(address->ifa_addr,family_size, ap, sizeof(ap),
-			0, 0, NI_NUMERICHOST);
-		printf("\t%s\n", ap);
+			getnameinfo(address->ifa_addr,family_size, ap, sizeof(ap),
+				0, 0, NI_NUMERICHOST);
+			printf("\t%s\n", ap);
 		}
 		address = address->ifa_next;
 	}
