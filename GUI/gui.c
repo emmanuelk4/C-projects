@@ -2,7 +2,72 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cairo.h>
 //CALLBACKS
+struct {
+  int count;
+  double coordx[100];
+  double coordy[100];
+} glob;
+
+static gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+
+    GdkWindow *window = gtk_widget_get_window(widget);
+    cairo_region_t *cairo_region = cairo_region_create();
+    GdkDrawingContext *drawing_context = gdk_window_begin_draw_frame(window, cairo_region);
+
+    cairo_t *cr;
+    cr = gdk_drawing_context_get_cairo_context(drawing_context);
+  		
+  		{
+
+             // do your drawing
+              cairo_set_source_rgb(cr, 0, 0, 0);
+  cairo_set_line_width(cr, 0.5);
+
+  int i, j;
+  for (i = 0; i <= glob.count - 1; i++ ) {
+      for (j = 0; j <= glob.count - 1; j++ ) {
+          cairo_move_to(cr, glob.coordx[i], glob.coordy[i]);
+          cairo_line_to(cr, glob.coordx[j], glob.coordy[j]);
+      }
+  }
+   glob.count = 0;
+  cairo_stroke(cr);    
+            
+		}
+            // say: "I'm finished drawing
+            gdk_window_end_draw_frame(window,drawing_context);
+        
+
+    cairo_region_destroy (cairo_region);
+    //    return FALSE;
+}
+
+static gboolean clicked(GtkWidget *widget, GdkEventButton *event,
+    gpointer user_data)
+{
+    if (event->button == 1) {
+        printf("Right Click");
+        glob.coordx[glob.count] = event->x;
+        glob.coordy[glob.count++] = event->y;
+
+        int i,j;
+        for (i =0; i <= glob.count-1; i++) {
+        	for (j=0; j <= glob.count-1; j++){
+          printf("%f\t", glob.coordx[i]);
+          printf("%f\n", glob.coordy[j]);
+      }
+      }
+    }
+
+    if (event->button == 3) {
+        printf("left Click");
+        gtk_widget_queue_draw(widget);
+    }
+
+}
 static void on_open_image(GtkButton *button, gpointer user_data)
 {
 	GtkWidget *image = GTK_WIDGET(user_data);
@@ -52,8 +117,11 @@ int main (int argc, char *argv[] )
 	GtkWidget *grid;
 	GtkWidget *imagecont;
 	GtkWidget *box;
+	GtkWidget *canvas;
+	GtkDrawingArea *drawing_area;
 
 	//Initalize GTK window
+	glob.count = 0;
 	gtk_init(&argc, &argv);
 	
 
@@ -61,6 +129,7 @@ int main (int argc, char *argv[] )
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,5);
 	imagecont = gtk_image_new();
+	drawing_area =(GtkDrawingArea*) gtk_drawing_area_new();
 	gtk_box_pack_start(GTK_BOX(box),imagecont,TRUE,TRUE,0);
 
 	open = gtk_button_new_with_label("open\n");
@@ -91,16 +160,17 @@ int main (int argc, char *argv[] )
 	gtk_grid_attach(GTK_GRID(grid), hand, 3,1,1,1);
 	gtk_grid_attach(GTK_GRID(grid), zoom, 4,1,1,1);
 	gtk_grid_attach(GTK_GRID(grid), box, 1,2,1,1);
+	gtk_grid_attach(GTK_GRID(grid), (GtkWidget*)drawing_area, 1,2,1,1);
 
 	
 	
-	
 	//box
-	
+	  gtk_widget_add_events(window, GDK_BUTTON_PRESS_MASK);
+
 	//set window title
 	gtk_window_set_title(GTK_WINDOW(window), "KIBICHO is BAE");
 	//set window size
-	gtk_window_set_default_size(GTK_WINDOW(window), 500,500);
+	gtk_window_set_default_size(GTK_WINDOW(window), 600,600);
 	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	//Set window width
 	gtk_container_set_border_width(GTK_CONTAINER(window), 10);
@@ -112,7 +182,11 @@ int main (int argc, char *argv[] )
 
 	//show open dialog when open clicked
 	g_signal_connect(open, "clicked", G_CALLBACK(on_open_image), imagecont);
-	//signal to handle destroy event
+	//create drawing area
+	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_window_draw), NULL);
+	g_signal_connect(window, "button-press-event", G_CALLBACK(clicked), NULL);
+	//
+		//signal to handle destroy event
 	//signal to handle button click
 	//g_signal_connect(G_OBJECT(button), "clicked",G_CALLBACK(hello), NULL);
 	//signal to destroy window when button clicked
