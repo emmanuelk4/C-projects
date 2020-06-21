@@ -1,4 +1,3 @@
-Web server to tell you what time it is
 /*Program:  timeNetwork.c
 *Run: 	   	gcc timeNetwork.c -o timeNetwork.o
 *Function: 	Create server showing my computer's time
