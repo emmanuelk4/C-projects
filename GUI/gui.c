@@ -1,8 +1,10 @@
 //gcc gui.c -o gui.o `pkg-config --cflags --libs gtk+-3.0`
 #include <gtk/gtk.h>
+#include "splashScreen.h"
 #include <stdio.h>
 #include <stdlib.h>	
 #include <cairo.h>
+#include <errno.h>
 
 //function prototypes
 static void do_drawing(cairo_t *);
@@ -137,6 +139,10 @@ int main (int argc, char *argv[] )
 	glob.count = 0;
 	gtk_init(&argc, &argv);
 	
+
+	if(showSplash("image.jpeg", 1000, 700, 700) != 0) {
+		fprintf(stderr, "%d\n", errno);
+	}
 
 	//create new ui features
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

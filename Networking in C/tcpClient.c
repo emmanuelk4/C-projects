@@ -1,27 +1,26 @@
-	/*Run:      gcc tcpClient.c -o tcpClient.o
-	*Function:  Create TCP client capable of  sending HTTP reuests
-	*Use:       Run as ./tcpClient.o example.com, 80
-	*Data sent: GET/HTTP/1.1
-				Host: example.com
-	*Output:    Returns HTML docuument
-	*/
+/*Run:      gcc tcpClient.c -o tcpClient.o
+*Function:  Create TCP client capable of  sending HTTP reuests
+*Use:       Run as ./tcpClient.o example.com, 80
+*Data sent: GET/HTTP/1.1
+			Host: example.com
+*Output:    Returns HTML docuument
+*/
 
 
-	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <netdb.h>
-	#include <unistd.h>
-	#include <errno.h>
-	#include <stdio.h>
-	#include <string.h>
-	#include <time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
 
-	#define ISVALIDSOCKET(s) ((s) >= 0)
-	#define CLOSESOCKET(s) close(s)
-	#define SOCKET int 
-	#define GETSOCKETERRNO() (errno)
+#define ISVALIDSOCKET(s) ((s) >= 0)
+#define CLOSESOCKET(s) close(s)
+#define SOCKET int 
+#define GETSOCKETERRNO() (errno)
 
 
 
