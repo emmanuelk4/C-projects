@@ -15,7 +15,7 @@ int showSplash(char *imageName, int time, int width, int height) {
 	
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	pix =  gdk_pixbuf_new_from_file(imageName, NULL);
-	pix = gdk_pixbuf_scale_simple(pix,700,700,GDK_INTERP_BILINEAR);
+	pix = gdk_pixbuf_scale_simple(pix,680,445,GDK_INTERP_BILINEAR);
 	image = gtk_image_new_from_pixbuf(pix);
 
 	text = gtk_label_new("Never have I ever");

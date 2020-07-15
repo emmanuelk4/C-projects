@@ -12,7 +12,7 @@
 */
 
 struct counter{
-	int count;
+	int count;				
 	double coordx[100];
 	double coordy[100];
 };

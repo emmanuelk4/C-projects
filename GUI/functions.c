@@ -13,20 +13,31 @@ struct counter count1;
 */
 void do_drawing(cairo_t *cr)
 {
-  cairo_set_source_rgb(cr, 0, 0, 0);//Line colour
-  cairo_set_line_width(cr, 0.5);//Line width
-  cairo_translate(cr, -170, -170);//Shift where line is seen
+	char fileName[10]= "b.txt"; 
+	FILE *fp;
+	fp = fopen("jass.txt", "w");
+
+  cairo_set_source_rgb(cr, 0, 128, 0);//Line colour
+  cairo_set_line_width(cr, 3.0);//Line width
+  cairo_translate(cr, -135, -160);//Shift where line is seen
 
   //i is starting point, i+1 is next mouse coordinate 
   int i;
   for (i = 0; i < count1.count - 1; i++ ) {
+  	if ( i != count1.count -1) {
   	cairo_move_to(cr, count1.coordx[i], count1.coordy[i]);
   	cairo_line_to(cr, count1.coordx[i+1], count1.coordy[i+1]);
+  	fprintf(fp, "%f\t%f\n",count1.coordx[i], count1.coordy[i]);
   	printf("from x:%f, y:%f\t to: x:%f, y:%f\n",count1.coordx[i],count1.coordy[i], count1.coordx[i+1], count1.coordy[i+1]);
-  	cairo_stroke(cr);    
-  }
+  	cairo_stroke(cr);   
+  } else{
+	cairo_line_to(cr,count1.coordx[i], count1.coordy[i]);
+}
+}
   //resets array so shape can be drawn again
-  count1.count = 0;
+  //count1.count = 0;
+    	  fclose(fp);
+
 }
 
 
@@ -52,12 +63,16 @@ gboolean on_window_draw (GtkWidget *widget, GdkEventExpose *event, gpointer data
 gboolean clicked(GtkWidget *widget, GdkEventButton *event,
 	gpointer user_data)
 {
+	double xCoord,yCoord;
 	if (event->button == 1) {
 		count1.coordx[count1.count] = event->x;
 		count1.coordy[count1.count++] = event->y;
+		gtk_widget_queue_draw(widget);
+
 	}
 	if (event->button == 3) {
-		gtk_widget_queue_draw(widget);
+		
+		count1.count = 0;
 
 	}
 
@@ -86,7 +101,7 @@ void on_open_image(GtkButton *button, gpointer user_data)
 		{
 			gchar *file_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 			pb = gdk_pixbuf_new_from_file(file_name, NULL);
-			pb = gdk_pixbuf_scale_simple(pb,700,700,GDK_INTERP_BILINEAR);
+			pb = gdk_pixbuf_scale_simple(pb,800,800,GDK_INTERP_BILINEAR);
 			gtk_image_set_from_pixbuf(GTK_IMAGE(image), pb);
 			break;
 		}
